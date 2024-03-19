@@ -1,5 +1,6 @@
 package com.dncoyote.FlightService.service.implementation;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -42,14 +43,22 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public int findFlights(String departureCity, String arrivalCity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findFlights'");
+        String url = "https://6098f0d799011f001713fbf3.mockapi.io/techcurators/products/flights";
+        Flight[] flights = restTemplate.getForObject(url, Flight[].class);
+
+        // Count flights based on departureCity and arrivalCity
+        long flightCount = Arrays.stream(flights)
+                .filter(flight -> flight.getDepartureFrom().equalsIgnoreCase(departureCity) &&
+                        flight.getArrivalAt().equalsIgnoreCase(arrivalCity))
+                .count();
+
+        return (int) flightCount;
     }
 
     @Override
     public int getFlightCount(String takeoffTimestamp, String takeoffCity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFlightCount'");
+        return 0;
+
     }
 
 }
